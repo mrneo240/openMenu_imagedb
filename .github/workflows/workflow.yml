@@ -27,7 +27,6 @@ jobs:
       - name: Convert and pack images
         run: sh ./process.sh
       - name: Generate release tag
-        if: startsWith(github.ref, 'refs/tags/')
         id: tag
         run: |
           echo "::set-output name=release_tag::test_$(date +"%Y.%m.%d_%H-%M")"
