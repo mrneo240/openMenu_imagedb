@@ -26,16 +26,21 @@ jobs:
         run: sh ./setup.sh
       - name: Convert and pack images
         run: sh ./process.sh
+      - name: Generate release tag
+        if: startsWith(github.ref, 'refs/tags/')
+        id: tag
+        run: |
+          echo "::set-output name=release_tag::test_$(date +"%Y.%m.%d_%H-%M")"
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           body_path: ${{ github.workspace }}-CHANGELOG.txt
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
             output/BOX.DAT
             output/ICON.DAT
       - uses: actions/upload-artifact@v3
-        if: failure()
+        if: always
         with:
           name: DATs
           path: output/
