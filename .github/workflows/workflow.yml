@@ -13,13 +13,13 @@ on:
 jobs:
   # Build and release.
   build-and-release:
-    runs-on: alpine-latest
+    runs-on: ubuntu-latest
     steps:
       # Check out source code.
       - name: Check out source code
         uses: actions/checkout@v3
       - name: Install compilation packages and image tools
-        run: apk add gcc make imagemagick
+        run: apt install gcc make imagemagick
       - name: Setup folders and compile tools
         run: sh ./setup.sh
       - name: Convert and pack images
