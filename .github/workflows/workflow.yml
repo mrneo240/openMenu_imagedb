@@ -28,8 +28,14 @@ jobs:
         run: sh ./process.sh
       - name: Release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: |
             output/BOX.DAT
             output/ICON.DAT
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: DATs
+          path: output/
