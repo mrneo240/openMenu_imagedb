@@ -19,7 +19,9 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v3
       - name: Install compilation packages and image tools
-        run: apt install gcc make imagemagick
+        uses: ConorMacBride/install-package@v1
+        with:
+          apt: gcc make imagemagick
       - name: Setup folders and compile tools
         run: sh ./setup.sh
       - name: Convert and pack images
