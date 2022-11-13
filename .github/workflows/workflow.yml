@@ -1,0 +1,33 @@
+name: main-workflow
+
+env: {}
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Build and release.
+  build-and-release:
+    runs-on: alpine-latest
+    steps:
+      # Check out source code.
+      - name: Check out source code
+        uses: actions/checkout@v3
+      - name: Install compilation packages and image tools
+        run: apk add gcc make imagemagick
+      - name: Setup folders and compile tools
+        run: sh ./setup.sh
+      - name: Convert and pack images
+        run: sh ./process.sh
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: ${{ github.workspace }}-CHANGELOG.txt
+          files: |
+            output/BOX.DAT
+            output/ICON.DAT
