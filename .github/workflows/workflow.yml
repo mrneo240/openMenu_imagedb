@@ -33,7 +33,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          body_path: CHANGES.md
+          body_path: CHANGELOG.md
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
             output/BOX.DAT
